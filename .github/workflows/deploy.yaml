@@ -1,9 +1,7 @@
-name: CI
+name: CI & Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
     branches: [ "main" ]
   workflow_dispatch:
 
@@ -19,6 +17,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -33,21 +32,21 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Fetch WASM execution support
-        run: cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
-
       - name: Run build script
         run: python build.py
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: '.'
 
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps: deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
     steps:
