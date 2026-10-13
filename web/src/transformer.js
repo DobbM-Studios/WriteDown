@@ -1,14 +1,27 @@
 import { markdownToHTML } from "./md.js";
 
-const container = document.getElementById("container");
+const result = document.getElementById("htmlresult");
+const lang   = document.getElementById("language-select");
+const input  = document.getElementById("code");
 
 export function fromMARKDOWN(t) {
-    container.innerHTML = markdownToHTML(t);   
+    result.srcdoc = markdownToHTML(t);   
 }
 
-window.wasmDone.then(() => fromMARKDOWN(`
-# Welcome
-## afd
-> referf
-\`fdg\`    
-`));
+export function fromHTML(t) {
+    result.srcdoc = t;
+}
+
+window.wasmDone.then(() => {
+    input.addEventListener("input", () => {
+        update();
+    })
+});
+
+function update() {
+    if (lang.value == "Markdown") {
+        fromMARKDOWN(input.value);
+    } else if (lang.value == "HTML") {
+        fromHTML(input.value);
+    }
+}

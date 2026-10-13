@@ -8,10 +8,24 @@
     <script src="./src/wasm_loader.js"></script>
 </head>
 <body>
-    <h1>Welcome</h1>
-    <div id="container">
+    <div class="app">
+        <header class="toolbar">
+            <h1>WriteDown - Editor</h1>
+            <div class="controls">
+                <select id="language-select" name="language">
+                    <option value="" disabled selected>Language</option>
+                    <option value="HTML">HTML</option>
+                    <option value="Markdown">Markdown</option>
+                </select>
+            </div>
+        </header>
 
+        <main class="editor-layout">
+            <textarea name="HTML code" id="code" aria-label="Code editor"></textarea>
+            <iframe id="htmlresult" title="Rendered output" sandbox>Your code will be displayed here</iframe>
+        </main>
     </div>
+
     <script src="src/transformer.js" type="module"></script>
 </body>
 </html>
