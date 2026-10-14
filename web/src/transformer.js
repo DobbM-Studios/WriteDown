@@ -5,6 +5,10 @@ const result = document.getElementById("htmlresult");
 const lang   = document.getElementById("language-select");
 const input  = document.getElementById("code");
 
+export function fromPLAIN(t) {
+    result.srcdoc = "<pre>" + t + "</pre>";
+}
+
 export function fromMARKDOWN(t) {
     result.srcdoc = markdownToHTML(t);   
 }
@@ -25,11 +29,20 @@ window.wasmDone.then(() => {
 });
 
 function update() {
-    if (lang.value == "Markdown") {
-        fromMARKDOWN(input.value);
-    } else if (lang.value == "HTML") {
-        fromHTML(input.value);
-    } else if (lang.value == "Dobbm Markup") {
-        fromDOBBMML(input.value);
+    const val = input.value;
+
+    switch (lang.value) {
+        case "Markdown":
+            fromMARKDOWN(val);
+            break;
+        case "HTML":
+            fromHTML(val);
+            break;
+        case "Dobbm Markup":
+            fromDOBBMML(val);
+            break;
+        case "Plain":
+            fromPLAIN(val);
+            break;
     }
 }
